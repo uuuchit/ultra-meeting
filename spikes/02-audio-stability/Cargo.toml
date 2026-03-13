@@ -1,0 +1,11 @@
+[package]
+name = "audio-stability-spike"
+version = "0.1.0"
+edition = "2021"
+description = "Phase 0 spike: 60+ min mic capture, device disconnect handling"
+
+[dependencies]
+cpal = "0.17"
+hound = "3.5"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }

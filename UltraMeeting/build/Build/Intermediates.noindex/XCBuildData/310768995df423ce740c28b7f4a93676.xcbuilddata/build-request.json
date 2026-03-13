@@ -1,0 +1,63 @@
+{
+  "buildCommand" : {
+    "command" : "build",
+    "skipDependencies" : false,
+    "style" : "buildOnly"
+  },
+  "configuredTargets" : [
+    {
+      "guid" : "e80052df34800340ac79c8b684732c0119a257b1dc962c42faeb51b751326e3e"
+    }
+  ],
+  "containerPath" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/UltraMeeting.xcodeproj",
+  "continueBuildingAfterErrors" : false,
+  "dependencyScope" : "workspace",
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "build",
+    "activeArchitecture" : "x86_64",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : false,
+      "platform" : "macosx",
+      "sdk" : "macosx15.5",
+      "sdkVariant" : "macos",
+      "supportedArchitectures" : [
+        "x86_64h",
+        "x86_64"
+      ],
+      "targetArchitecture" : "x86_64"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex",
+      "buildProductsPath" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Products",
+      "derivedDataPath" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build",
+      "indexDataStoreFolderPath" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Index.noindex/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Index.noindex/PrecompiledHeaders",
+      "pchPath" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/PrecompiledHeaders"
+    },
+    "configurationName" : "Debug",
+    "overrides" : {
+      "commandLine" : {
+        "table" : {
+
+        }
+      },
+      "synthesized" : {
+        "table" : {
+          "ACTION" : "build",
+          "ENABLE_PREVIEWS" : "NO",
+          "ENABLE_XOJIT_PREVIEWS" : "YES",
+          "ONLY_ACTIVE_ARCH" : "YES"
+        }
+      }
+    }
+  },
+  "schemeCommand" : "launch",
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}

@@ -1,0 +1,108 @@
+{
+  "" : {
+    "diagnostics" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/UltraMeeting-master.dia",
+    "emit-module-dependencies" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/UltraMeeting-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/UltraMeeting-master-emit-module.dia",
+    "swift-dependencies" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/UltraMeeting-master.swiftdeps"
+  },
+  "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/Sources/AppState.swift" : {
+    "const-values" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/AppState.swiftconstvalues",
+    "dependencies" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/AppState.d",
+    "diagnostics" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/AppState.dia",
+    "index-unit-output-path" : "/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/AppState.o",
+    "llvm-bc" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/AppState.bc",
+    "object" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/AppState.o",
+    "swift-dependencies" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/AppState.swiftdeps",
+    "swiftmodule" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/AppState~partial.swiftmodule"
+  },
+  "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/Sources/ComplianceView.swift" : {
+    "const-values" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/ComplianceView.swiftconstvalues",
+    "dependencies" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/ComplianceView.d",
+    "diagnostics" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/ComplianceView.dia",
+    "index-unit-output-path" : "/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/ComplianceView.o",
+    "llvm-bc" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/ComplianceView.bc",
+    "object" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/ComplianceView.o",
+    "swift-dependencies" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/ComplianceView.swiftdeps",
+    "swiftmodule" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/ComplianceView~partial.swiftmodule"
+  },
+  "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/Sources/MeetingDetection.swift" : {
+    "const-values" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/MeetingDetection.swiftconstvalues",
+    "dependencies" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/MeetingDetection.d",
+    "diagnostics" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/MeetingDetection.dia",
+    "index-unit-output-path" : "/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/MeetingDetection.o",
+    "llvm-bc" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/MeetingDetection.bc",
+    "object" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/MeetingDetection.o",
+    "swift-dependencies" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/MeetingDetection.swiftdeps",
+    "swiftmodule" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/MeetingDetection~partial.swiftmodule"
+  },
+  "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/Sources/MenuBarView.swift" : {
+    "const-values" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/MenuBarView.swiftconstvalues",
+    "dependencies" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/MenuBarView.d",
+    "diagnostics" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/MenuBarView.dia",
+    "index-unit-output-path" : "/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/MenuBarView.o",
+    "llvm-bc" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/MenuBarView.bc",
+    "object" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/MenuBarView.o",
+    "swift-dependencies" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/MenuBarView.swiftdeps",
+    "swiftmodule" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/MenuBarView~partial.swiftmodule"
+  },
+  "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/Sources/RecordingsBrowserView.swift" : {
+    "const-values" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/RecordingsBrowserView.swiftconstvalues",
+    "dependencies" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/RecordingsBrowserView.d",
+    "diagnostics" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/RecordingsBrowserView.dia",
+    "index-unit-output-path" : "/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/RecordingsBrowserView.o",
+    "llvm-bc" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/RecordingsBrowserView.bc",
+    "object" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/RecordingsBrowserView.o",
+    "swift-dependencies" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/RecordingsBrowserView.swiftdeps",
+    "swiftmodule" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/RecordingsBrowserView~partial.swiftmodule"
+  },
+  "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/Sources/RustBridge.swift" : {
+    "const-values" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/RustBridge.swiftconstvalues",
+    "dependencies" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/RustBridge.d",
+    "diagnostics" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/RustBridge.dia",
+    "index-unit-output-path" : "/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/RustBridge.o",
+    "llvm-bc" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/RustBridge.bc",
+    "object" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/RustBridge.o",
+    "swift-dependencies" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/RustBridge.swiftdeps",
+    "swiftmodule" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/RustBridge~partial.swiftmodule"
+  },
+  "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/Sources/ScreenCaptureBridge.swift" : {
+    "const-values" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/ScreenCaptureBridge.swiftconstvalues",
+    "dependencies" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/ScreenCaptureBridge.d",
+    "diagnostics" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/ScreenCaptureBridge.dia",
+    "index-unit-output-path" : "/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/ScreenCaptureBridge.o",
+    "llvm-bc" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/ScreenCaptureBridge.bc",
+    "object" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/ScreenCaptureBridge.o",
+    "swift-dependencies" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/ScreenCaptureBridge.swiftdeps",
+    "swiftmodule" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/ScreenCaptureBridge~partial.swiftmodule"
+  },
+  "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/Sources/Settings.swift" : {
+    "const-values" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/Settings.swiftconstvalues",
+    "dependencies" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/Settings.d",
+    "diagnostics" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/Settings.dia",
+    "index-unit-output-path" : "/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/Settings.o",
+    "llvm-bc" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/Settings.bc",
+    "object" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/Settings.o",
+    "swift-dependencies" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/Settings.swiftdeps",
+    "swiftmodule" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/Settings~partial.swiftmodule"
+  },
+  "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/Sources/SettingsView.swift" : {
+    "const-values" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/SettingsView.swiftconstvalues",
+    "dependencies" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/SettingsView.d",
+    "diagnostics" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/SettingsView.dia",
+    "index-unit-output-path" : "/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/SettingsView.o",
+    "llvm-bc" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/SettingsView.bc",
+    "object" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/SettingsView.o",
+    "swift-dependencies" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/SettingsView.swiftdeps",
+    "swiftmodule" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/SettingsView~partial.swiftmodule"
+  },
+  "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/Sources/UltraMeetingApp.swift" : {
+    "const-values" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/UltraMeetingApp.swiftconstvalues",
+    "dependencies" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/UltraMeetingApp.d",
+    "diagnostics" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/UltraMeetingApp.dia",
+    "index-unit-output-path" : "/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/UltraMeetingApp.o",
+    "llvm-bc" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/UltraMeetingApp.bc",
+    "object" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/UltraMeetingApp.o",
+    "swift-dependencies" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/UltraMeetingApp.swiftdeps",
+    "swiftmodule" : "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/build/Build/Intermediates.noindex/UltraMeeting.build/Debug/UltraMeeting.build/Objects-normal/x86_64/UltraMeetingApp~partial.swiftmodule"
+  }
+}

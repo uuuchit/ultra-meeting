@@ -1,0 +1,10 @@
+[package]
+name = "sync-drift-spike"
+version = "0.1.0"
+edition = "2021"
+description = "Phase 0 spike: dual-stream timestamping and drift measurement"
+
+[dependencies]
+libc = "0.2"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }

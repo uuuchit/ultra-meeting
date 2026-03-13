@@ -1,0 +1,367 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A1000001 /* UltraMeetingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000001; };
+		A1000002 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002; };
+		A1000003 /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000003; };
+		A1000004 /* ComplianceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000004; };
+		A1000005 /* RustBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000005; };
+		A1000008 /* ScreenCaptureBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000007; };
+		A1000010 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000010; };
+		A1000011 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000011; };
+		A1000012 /* MeetingDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000012; };
+		A1000013 /* RecordingsBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000013; };
+		A1000014 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000014; };
+		A1000015 /* MeetingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000015; };
+		A1000016 /* SessionMetadataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000016; };
+		A1000017 /* QMDService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000017; };
+		A1000006 /* libultra_meeting_core.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A2000006; };
+		A1000007 /* libultra_meeting_core.dylib in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A2000006; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A1000009 /* ScreenCaptureKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2000008; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A2000000 /* UltraMeeting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UltraMeeting.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2000001 /* UltraMeetingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UltraMeetingApp.swift; sourceTree = "<group>"; };
+		A2000002 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		A2000003 /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
+		A2000004 /* ComplianceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplianceView.swift; sourceTree = "<group>"; };
+		A2000005 /* RustBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RustBridge.swift; sourceTree = "<group>"; };
+		A2000006 /* libultra_meeting_core.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libultra_meeting_core.dylib; sourceTree = "<group>"; };
+		A2000007 /* ScreenCaptureBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCaptureBridge.swift; sourceTree = "<group>"; };
+		A2000008 /* ScreenCaptureKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenCaptureKit.framework; path = ScreenCaptureKit.framework; sourceTree = SDKROOT; };
+		A2000009 /* UltraMeeting.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = UltraMeeting.entitlements; sourceTree = "<group>"; };
+		A2000010 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		A2000011 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A2000012 /* MeetingDetection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingDetection.swift; sourceTree = "<group>"; };
+		A2000013 /* RecordingsBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingsBrowserView.swift; sourceTree = "<group>"; };
+		A2000014 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
+		A2000015 /* MeetingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingStore.swift; sourceTree = "<group>"; };
+		A2000016 /* SessionMetadataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionMetadataParser.swift; sourceTree = "<group>"; };
+		A2000017 /* QMDService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QMDService.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A3000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1000006 /* libultra_meeting_core.dylib in Frameworks */,
+				A1000009 /* ScreenCaptureKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A4000001 = {
+			isa = PBXGroup;
+			children = (
+				A4000002 /* UltraMeeting */,
+				A4000003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A4000002 /* UltraMeeting */ = {
+			isa = PBXGroup;
+			children = (
+				A4000004 /* Sources */,
+				A4000005 /* Rust */,
+				A4000006 /* Frameworks */,
+				A2000009 /* UltraMeeting.entitlements */,
+			);
+			path = .;
+			sourceTree = "<group>";
+		};
+		A4000006 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A2000008 /* ScreenCaptureKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A4000005 /* Rust */ = {
+			isa = PBXGroup;
+			children = (
+				A2000006 /* libultra_meeting_core.dylib */,
+			);
+			name = Rust;
+			path = ../rust-core/target/release;
+			sourceTree = "<group>";
+		};
+		A4000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A2000000 /* UltraMeeting.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A4000004 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				A2000001 /* UltraMeetingApp.swift */,
+				A2000002 /* AppState.swift */,
+				A2000003 /* MenuBarView.swift */,
+				A2000004 /* ComplianceView.swift */,
+				A2000005 /* RustBridge.swift */,
+				A2000007 /* ScreenCaptureBridge.swift */,
+				A2000010 /* Settings.swift */,
+				A2000011 /* SettingsView.swift */,
+				A2000012 /* MeetingDetection.swift */,
+				A2000013 /* RecordingsBrowserView.swift */,
+				A2000014 /* Database.swift */,
+				A2000015 /* MeetingStore.swift */,
+				A2000016 /* SessionMetadataParser.swift */,
+				A2000017 /* QMDService.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A5000001 /* UltraMeeting */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A6000003;
+			buildPhases = (
+				A5000004 /* Build Rust Core */,
+				A5000002 /* Sources */,
+				A3000001 /* Frameworks */,
+				A5000005 /* Embed Frameworks */,
+				A5000003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UltraMeeting;
+			productName = UltraMeeting;
+			productReference = A2000000 /* UltraMeeting.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A7000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+			};
+			buildConfigurationList = A6000001;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A4000001;
+			productRefGroup = A4000003;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A5000001 /* UltraMeeting */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A5000005 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A1000007 /* libultra_meeting_core.dylib in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A5000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A5000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1000001 /* UltraMeetingApp.swift in Sources */,
+				A1000002 /* AppState.swift in Sources */,
+				A1000003 /* MenuBarView.swift in Sources */,
+				A1000004 /* ComplianceView.swift in Sources */,
+				A1000005 /* RustBridge.swift in Sources */,
+				A1000008 /* ScreenCaptureBridge.swift in Sources */,
+				A1000010 /* Settings.swift in Sources */,
+				A1000011 /* SettingsView.swift in Sources */,
+				A1000012 /* MeetingDetection.swift in Sources */,
+				A1000013 /* RecordingsBrowserView.swift in Sources */,
+		A1000014 /* Database.swift in Sources */,
+		A1000015 /* MeetingStore.swift in Sources */,
+		A1000016 /* SessionMetadataParser.swift in Sources */,
+		A1000017 /* QMDService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5000004 /* Build Rust Core */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(PROJECT_DIR)/../rust-core/Cargo.toml",
+			);
+			name = "Build Rust Core";
+			outputPaths = (
+				"$(PROJECT_DIR)/../rust-core/target/release/libultra_meeting_core.dylib",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"${PROJECT_DIR}/../rust-core\"\nCARGO_TARGET_DIR=target cargo build --release --features transcription\ninstall_name_tool -id \"@rpath/libultra_meeting_core.dylib\" target/release/libultra_meeting_core.dylib\n";
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A8000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A8000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		A8000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = UltraMeeting.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../rust-core/target/release",
+				);
+				MARKETING_VERSION = 0.1.0;
+				OTHER_LDFLAGS = (
+					"-lsqlite3",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ultrameeting.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A8000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = UltraMeeting.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../rust-core/target/release",
+				);
+				MARKETING_VERSION = 0.1.0;
+				OTHER_LDFLAGS = (
+					"-lsqlite3",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ultrameeting.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A6000001 /* Build configuration list for PBXProject "UltraMeeting" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8000001 /* Debug */,
+				A8000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A6000003 /* Build configuration list for PBXTarget "UltraMeeting" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8000003 /* Debug */,
+				A8000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A7000001 /* Project object */;
+}

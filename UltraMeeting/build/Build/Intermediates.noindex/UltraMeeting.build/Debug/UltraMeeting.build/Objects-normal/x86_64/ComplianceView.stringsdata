@@ -1,0 +1,48 @@
+{
+  "source": "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/Sources/ComplianceView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Recording Disclosure",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 12
+        }
+      },
+      {
+        "comment": "",
+        "key": "Ultra Meeting records your microphone and meeting app audio locally. No data is sent to the cloud.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 14
+        }
+      },
+      {
+        "comment": "",
+        "key": "By starting a recording, you confirm you have appropriate consent from all participants where required by law.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 16
+        }
+      },
+      {
+        "comment": "",
+        "key": "I understand",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 19
+        }
+      },
+      {
+        "comment": "",
+        "key": "Some regions require all-party consent to record. Check your local laws.",
+        "location": {
+          "startingColumn": 14,
+          "startingLine": 30
+        }
+      }
+    ]
+  },
+  "version": 1
+}

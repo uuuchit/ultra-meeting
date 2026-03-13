@@ -1,0 +1,40 @@
+{
+  "source": "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/Sources/RecordingsBrowserView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Select a recording",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 26
+        }
+      },
+      {
+        "comment": "",
+        "key": "Done",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 34
+        }
+      },
+      {
+        "comment": "",
+        "key": "Open Folder",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 91
+        }
+      },
+      {
+        "comment": "",
+        "key": "Open Transcript",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 95
+        }
+      }
+    ]
+  },
+  "version": 1
+}

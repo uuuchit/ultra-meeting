@@ -1,0 +1,88 @@
+{
+  "source": "/Users/uchitkumar/Desktop/Projects/ultra-meeting/UltraMeeting/Sources/SettingsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Recording",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 16
+        }
+      },
+      {
+        "comment": "",
+        "key": "Privacy (coming soon)",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 31
+        }
+      },
+      {
+        "comment": "",
+        "key": "Default: %@",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 26
+        }
+      },
+      {
+        "comment": "",
+        "key": "Default meeting name",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 17
+        }
+      },
+      {
+        "comment": "",
+        "key": "Storage location",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 19
+        }
+      },
+      {
+        "comment": "",
+        "key": "Browse...",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 21
+        }
+      },
+      {
+        "comment": "",
+        "key": "Summaries will be generated from transcripts locally.",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 34
+        }
+      },
+      {
+        "comment": "",
+        "key": "Retention & encryption: planned for a future release.",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 37
+        }
+      },
+      {
+        "comment": "",
+        "key": "Auto-generate summaries",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 32
+        }
+      },
+      {
+        "comment": "",
+        "key": "Done",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 43
+        }
+      }
+    ]
+  },
+  "version": 1
+}

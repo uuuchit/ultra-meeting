@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>logFormatVersion</key>
+	<integer>11</integer>
+	<key>logs</key>
+	<dict>
+		<key>B7705321-8458-418A-9292-7AAC48F40B0E</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>B7705321-8458-418A-9292-7AAC48F40B0E.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>UltraMeeting project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>UltraMeeting</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Cleaning project UltraMeeting with scheme UltraMeeting and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>794722974.91619694</real>
+			<key>timeStoppedRecording</key>
+			<real>794722975.67238498</real>
+			<key>title</key>
+			<string>Cleaning project UltraMeeting with scheme UltraMeeting and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>B7705321-8458-418A-9292-7AAC48F40B0E</string>
+		</dict>
+		<key>F9634EB8-3380-420D-A03A-AFEE6DFE2EDA</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>F9634EB8-3380-420D-A03A-AFEE6DFE2EDA.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>UltraMeeting project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>UltraMeeting</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Cleaning project UltraMeeting with scheme UltraMeeting and configuration Release</string>
+			<key>timeStartedRecording</key>
+			<real>794662570.310148</real>
+			<key>timeStoppedRecording</key>
+			<real>794662571.00016999</real>
+			<key>title</key>
+			<string>Cleaning project UltraMeeting with scheme UltraMeeting and configuration Release</string>
+			<key>uniqueIdentifier</key>
+			<string>F9634EB8-3380-420D-A03A-AFEE6DFE2EDA</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

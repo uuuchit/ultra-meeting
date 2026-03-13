@@ -1,0 +1,3 @@
+# Ensure target is in rust-core/target for predictable Xcode linking
+[build]
+target-dir = "target"
