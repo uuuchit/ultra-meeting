@@ -5,7 +5,9 @@ struct SettingsView: View {
     @AppStorage("defaultMeetingName") private var meetingName = "Meeting"
     @AppStorage("storagePath") private var storagePath = ""
     @AppStorage("qmdSearchEnabled") private var qmdEnabled = false
-    @Binding var isPresented: Bool
+    /// When nil, use dismissWindow (standalone window). When provided, set to false on Done (sheet).
+    var isPresented: Binding<Bool>?
+    @Environment(\.dismissWindow) private var dismissWindow
     @State private var qmdAddResult: String?
     @State private var qmdUpdateResult: String?
     @State private var qmdEmbedResult: String?
@@ -74,7 +76,11 @@ struct SettingsView: View {
 
             Section {
                 Button("Done") {
-                    isPresented = false
+                    if let binding = isPresented {
+                        binding.wrappedValue = false
+                    } else {
+                        dismissWindow(id: "settings")
+                    }
                 }
             }
         }
@@ -133,6 +139,13 @@ struct SettingsView: View {
         if panel.runModal() == .OK, let url = panel.url {
             storagePath = url.path
         }
+    }
+}
+
+/// Standalone window content for Settings (avoids menu bar popover closing on focus loss).
+struct SettingsWindowContent: View {
+    var body: some View {
+        SettingsView(isPresented: nil)
     }
 }
 

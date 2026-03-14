@@ -16,6 +16,19 @@ struct UltraMeetingApp: App {
             MenuBarView(appState: appState)
         }
         .menuBarExtraStyle(.window)
+
+        // Standalone windows prevent closure when menu bar popover loses focus
+        Window("Recordings", id: "recordings") {
+            RecordingsBrowserWindowContent()
+        }
+        .windowResizability(.contentSize)
+        .defaultSize(width: 600, height: 500)
+
+        Window("Settings", id: "settings") {
+            SettingsWindowContent()
+        }
+        .windowResizability(.contentSize)
+        .defaultSize(width: 450, height: 350)
     }
 }
 

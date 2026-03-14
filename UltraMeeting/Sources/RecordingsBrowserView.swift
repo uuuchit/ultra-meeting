@@ -6,7 +6,9 @@ enum SearchMode: String, CaseIterable {
 }
 
 struct RecordingsBrowserView: View {
-    @Binding var isPresented: Bool
+    /// When nil, use onDismiss (standalone window). When provided, set to false on Done (sheet).
+    var isPresented: Binding<Bool>?
+    var onDismiss: (() -> Void)?
     @ObservedObject var meetingStore = MeetingStore.shared
     @State private var selectedMeeting: MeetingRecord?
     @State private var searchQuery = ""
@@ -55,6 +57,30 @@ struct RecordingsBrowserView: View {
             }
         } else {
             qmdResults = meetingStore.meetings
+        }
+    }
+
+    /// Migrate legacy sessions (filesystem-only) into DB when DB is empty.
+    private func syncLegacyFromFilesystem() {
+        guard meetingStore.meetings.isEmpty else { return }
+        var dirsToScan: [URL] = []
+        if let rec = AppSettings.recordingsURL, FileManager.default.fileExists(atPath: rec.path) {
+            dirsToScan.append(rec)
+        }
+        if let root = AppSettings.storageRootURL, FileManager.default.fileExists(atPath: root.path) {
+            dirsToScan.append(root)
+        }
+        for base in dirsToScan {
+            let contents = (try? FileManager.default.contentsOfDirectory(at: base, includingPropertiesForKeys: [.contentModificationDateKey], options: .skipsHiddenFiles)) ?? []
+            for url in contents where url.hasDirectoryPath {
+                let path = url.path
+                guard let meeting = SessionMetadataParser.parse(recordingPath: path) else { continue }
+                meetingStore.insertMeeting(meeting)
+                if let content = SessionMetadataParser.readTranscript(recordingPath: path),
+                   let tp = SessionMetadataParser.transcriptPath(fromRecordingPath: path) {
+                    meetingStore.insertTranscript(meetingId: meeting.id, contentMd: content, transcriptPath: tp)
+                }
+            }
         }
     }
 
@@ -122,33 +148,25 @@ struct RecordingsBrowserView: View {
         }
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
-                Button("Done") { isPresented = false }
-            }
-        }
-    }
-
-    /// Migrate legacy sessions (filesystem-only) into DB when DB is empty.
-    private func syncLegacyFromFilesystem() {
-        guard meetingStore.meetings.isEmpty else { return }
-        var dirsToScan: [URL] = []
-        if let rec = AppSettings.recordingsURL, FileManager.default.fileExists(atPath: rec.path) {
-            dirsToScan.append(rec)
-        }
-        if let root = AppSettings.storageRootURL, FileManager.default.fileExists(atPath: root.path) {
-            dirsToScan.append(root)
-        }
-        for base in dirsToScan {
-            let contents = (try? FileManager.default.contentsOfDirectory(at: base, includingPropertiesForKeys: [.contentModificationDateKey], options: .skipsHiddenFiles)) ?? []
-            for url in contents where url.hasDirectoryPath {
-                let path = url.path
-                guard let meeting = SessionMetadataParser.parse(recordingPath: path) else { continue }
-                meetingStore.insertMeeting(meeting)
-                if let content = SessionMetadataParser.readTranscript(recordingPath: path),
-                   let tp = SessionMetadataParser.transcriptPath(fromRecordingPath: path) {
-                    meetingStore.insertTranscript(meetingId: meeting.id, contentMd: content, transcriptPath: tp)
+                Button("Done") {
+                    if let onDismiss {
+                        onDismiss()
+                    } else {
+                        isPresented?.wrappedValue = false
+                    }
                 }
             }
         }
+    }
+}
+
+/// Standalone window content for Recordings browser (avoids menu bar popover closing on focus loss).
+struct RecordingsBrowserWindowContent: View {
+    @Environment(\.dismissWindow) private var dismissWindow
+
+    var body: some View {
+        RecordingsBrowserView(isPresented: nil, onDismiss: { dismissWindow(id: "recordings") })
+            .onDisappear { MeetingStore.shared.refresh() }
     }
 }
 
@@ -214,16 +232,32 @@ struct MeetingDetailView: View {
                     .font(.caption)
                     .foregroundColor(.red)
             }
-            if let content = transcriptContent {
-                ScrollView {
-                    Text(content)
-                        .font(.system(.body, design: .monospaced))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .textSelection(.enabled)
-                        .padding()
+            // Transcript area: show content or placeholder; ensure it gets space
+            Group {
+                if let content = transcriptContent, !content.isEmpty {
+                    ScrollView {
+                        Text(content)
+                            .font(.system(.body, design: .monospaced))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .textSelection(.enabled)
+                            .padding()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else if isTranscribingThis {
+                    Text("Transcription in progress...")
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                } else if hasAudio && !meeting.hasTranscript {
+                    Text("No transcript yet. Use the Transcribe button above.")
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                } else {
+                    Text("No transcript available.")
+                        .font(.body)
+                        .foregroundColor(.secondary)
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)

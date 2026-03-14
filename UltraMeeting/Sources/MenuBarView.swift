@@ -1,10 +1,9 @@
 import SwiftUI
 
 struct MenuBarView: View {
+    @Environment(\.openWindow) private var openWindow
     @ObservedObject var appState: AppState
     @ObservedObject var meetingStore = MeetingStore.shared
-    @State private var showSettings = false
-    @State private var showRecordingsBrowser = false
     @State private var showZoomAutoStartAlert = false
 
     var body: some View {
@@ -46,7 +45,7 @@ struct MenuBarView: View {
 
             Divider()
 
-            MeetingListSection(meetingStore: meetingStore, showRecordingsBrowser: $showRecordingsBrowser)
+            MeetingListSection(meetingStore: meetingStore)
 
             Button("Open Recordings Folder") {
                 openRecordingsFolder()
@@ -59,11 +58,7 @@ struct MenuBarView: View {
             }
 
             Button("Browse Recordings...") {
-                showRecordingsBrowser = true
-            }
-            .sheet(isPresented: $showRecordingsBrowser) {
-                RecordingsBrowserView(isPresented: $showRecordingsBrowser)
-                    .onDisappear { meetingStore.refresh() }
+                openWindow(id: "recordings")
             }
 
             if let meetingApp = MeetingDetection.detectedMeetingApp(),
@@ -83,10 +78,7 @@ struct MenuBarView: View {
             }
 
             Button("Settings...") {
-                showSettings = true
-            }
-            .sheet(isPresented: $showSettings) {
-                SettingsView(isPresented: $showSettings)
+                openWindow(id: "settings")
             }
 
             Divider()
@@ -118,7 +110,6 @@ struct MenuBarView: View {
 
 struct MeetingListSection: View {
     @ObservedObject var meetingStore: MeetingStore
-    @Binding var showRecordingsBrowser: Bool
 
     var body: some View {
         if !meetingStore.recentMeetings.isEmpty {
