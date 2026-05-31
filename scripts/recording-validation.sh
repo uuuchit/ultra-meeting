@@ -14,12 +14,12 @@ echo ""
 # Build if needed
 if [[ ! -f rust-core/target/release/libultra_meeting_core.dylib ]]; then
     echo "Building Rust core..."
-    (cd rust-core && CARGO_TARGET_DIR=target cargo build --release --features transcription)
+    (cd rust-core && CARGO_TARGET_DIR=target cargo build --release --no-default-features)
 fi
 
 # Build Xcode project
 echo "Building UltraMeeting..."
-(cd UltraMeeting && CARGO_TARGET_DIR=../rust-core/target xcodebuild -project UltraMeeting.xcodeproj -scheme UltraMeeting -configuration Debug build 2>/dev/null | tail -5)
+(cd UltraMeeting && CARGO_TARGET_DIR=../rust-core/target xcodebuild -project UltraMeeting.xcodeproj -scheme UltraMeeting -configuration Debug -derivedDataPath build build 2>/dev/null | tail -5)
 
 LOG_PID=""
 cleanup() {

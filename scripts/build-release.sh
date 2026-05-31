@@ -7,8 +7,7 @@ cd "$(dirname "$0")/.."
 
 echo "Building Rust core..."
 cd rust-core
-cargo build --release --no-default-features
-# For transcription: cargo build --release --features transcription
+cargo build --release --features transcription
 cd ..
 
 echo "Building UltraMeeting.app..."

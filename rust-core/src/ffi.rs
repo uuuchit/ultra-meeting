@@ -37,7 +37,9 @@ pub extern "C" fn ultra_meeting_init() -> *mut c_char {
 #[no_mangle]
 pub extern "C" fn ultra_meeting_free_string(s: *mut c_char) {
     if !s.is_null() {
-        unsafe { drop(CString::from_raw(s)); }
+        unsafe {
+            drop(CString::from_raw(s));
+        }
     }
 }
 
@@ -101,9 +103,7 @@ pub extern "C" fn ultra_meeting_stop_recording() -> *mut c_char {
         return CString::new("not initialized").unwrap().into_raw();
     };
     thread::spawn(move || {
-        let result = panic::catch_unwind(panic::AssertUnwindSafe(|| {
-            c.stop_recording()
-        }));
+        let result = panic::catch_unwind(panic::AssertUnwindSafe(|| c.stop_recording()));
         match result {
             Ok(Ok(())) => {}
             Ok(Err(e)) => {
@@ -128,22 +128,28 @@ pub extern "C" fn ultra_meeting_stop_recording() -> *mut c_char {
 /// Returns null on success, error message (caller must free) on failure.
 #[no_mangle]
 pub extern "C" fn ultra_meeting_transcribe_session(path: *const c_char) -> *mut c_char {
-    let path_str = match (unsafe { path.as_ref() }).and_then(|p| unsafe { CStr::from_ptr(p) }.to_str().ok()) {
-        Some(s) => s.to_string(),
-        None => return CString::new("invalid path").unwrap().into_raw(),
-    };
-    let path_buf = std::path::PathBuf::from(&path_str);
-
+    let _path_str =
+        match (unsafe { path.as_ref() }).and_then(|p| unsafe { CStr::from_ptr(p) }.to_str().ok()) {
+            Some(s) => s.to_string(),
+            None => return CString::new("invalid path").unwrap().into_raw(),
+        };
     let guard = COORD.lock().unwrap();
     match guard.as_ref() {
         Some(c) => {
+            #[cfg(not(feature = "transcription"))]
+            let _ = c;
             #[cfg(feature = "transcription")]
-            match c.transcribe_session_later(path_buf) {
-                Ok(()) => ptr::null_mut(),
-                Err(e) => CString::new(e.to_string()).unwrap().into_raw(),
+            {
+                let path_buf = std::path::PathBuf::from(&_path_str);
+                match c.transcribe_session_later(path_buf) {
+                    Ok(()) => ptr::null_mut(),
+                    Err(e) => CString::new(e.to_string()).unwrap().into_raw(),
+                }
             }
             #[cfg(not(feature = "transcription"))]
-            CString::new("transcription not enabled").unwrap().into_raw()
+            CString::new("transcription not enabled")
+                .unwrap()
+                .into_raw()
         }
         None => CString::new("not initialized").unwrap().into_raw(),
     }
@@ -154,7 +160,10 @@ pub extern "C" fn ultra_meeting_transcribe_session(path: *const c_char) -> *mut 
 #[no_mangle]
 pub extern "C" fn ultra_meeting_last_completed_recording_path() -> *mut c_char {
     let guard = COORD.lock().unwrap();
-    match guard.as_ref().and_then(|c| c.take_last_completed_recording_path()) {
+    match guard
+        .as_ref()
+        .and_then(|c| c.take_last_completed_recording_path())
+    {
         Some(p) => match CString::new(p.to_string_lossy().into_owned()) {
             Ok(s) => s.into_raw(),
             Err(_) => ptr::null_mut(),
@@ -191,7 +200,10 @@ pub extern "C" fn ultra_meeting_skip_transcription() {
 /// len: number of samples.
 /// Returns null on success.
 #[no_mangle]
-pub extern "C" fn ultra_meeting_ingest_remote_audio(samples: *const f32, len: c_uint) -> *mut c_char {
+pub extern "C" fn ultra_meeting_ingest_remote_audio(
+    samples: *const f32,
+    len: c_uint,
+) -> *mut c_char {
     if samples.is_null() || len == 0 {
         return ptr::null_mut();
     }

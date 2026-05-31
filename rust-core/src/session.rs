@@ -5,7 +5,8 @@ use crate::error::RecordingError;
 use crate::remote_audio::RemoteAudioWriter;
 use crate::state::{RecordingState, StateMachine};
 use crate::storage::SessionStorage;
-use chrono::Utc;
+use chrono::{Duration, Utc};
+use std::panic;
 use std::path::PathBuf;
 use std::sync::atomic::{AtomicBool, AtomicU32, AtomicU64, Ordering};
 use std::sync::{Arc, Mutex};
@@ -47,16 +48,29 @@ impl SessionCoordinator {
     }
 
     pub fn init(&self) -> Result<(), RecordingError> {
-        let mut sm = self.state_machine.lock().map_err(|e| RecordingError::Other(e.to_string()))?;
+        let mut sm = self
+            .state_machine
+            .lock()
+            .map_err(|e| RecordingError::Other(e.to_string()))?;
         if !matches!(sm.state(), RecordingState::Idle | RecordingState::Preparing) {
-            tracing::warn!("Recovering from interrupted recording (state was {:?})", sm.state());
+            tracing::warn!(
+                "Recovering from interrupted recording (state was {:?})",
+                sm.state()
+            );
             sm.reset_interrupted()?;
         }
         Ok(())
     }
 
-    pub fn create_session(&self, meeting_name: &str, storage_root: Option<PathBuf>) -> Result<(), RecordingError> {
-        let mut sm = self.state_machine.lock().map_err(|e| RecordingError::Other(e.to_string()))?;
+    pub fn create_session(
+        &self,
+        meeting_name: &str,
+        storage_root: Option<PathBuf>,
+    ) -> Result<(), RecordingError> {
+        let mut sm = self
+            .state_machine
+            .lock()
+            .map_err(|e| RecordingError::Other(e.to_string()))?;
         sm.start_preparing()?;
         drop(sm);
 
@@ -70,9 +84,14 @@ impl SessionCoordinator {
         let storage = SessionStorage::create(session_root, meeting_name)?;
         let storage_arc = Arc::new(Mutex::new(storage));
 
-        *self.session_storage.lock().map_err(|e| RecordingError::Other(e.to_string()))? =
-            Some(storage_arc.clone());
-        *self.last_error.lock().map_err(|e| RecordingError::Other(e.to_string()))? = None;
+        *self
+            .session_storage
+            .lock()
+            .map_err(|e| RecordingError::Other(e.to_string()))? = Some(storage_arc.clone());
+        *self
+            .last_error
+            .lock()
+            .map_err(|e| RecordingError::Other(e.to_string()))? = None;
 
         Ok(())
     }
@@ -86,25 +105,41 @@ impl SessionCoordinator {
             .ok_or_else(|| RecordingError::InvalidState("no session".into()))?;
 
         {
-            let mut guard = storage_arc.lock().map_err(|e| RecordingError::Other(e.to_string()))?;
-            guard.metadata.capture.mic_device = mic_device.clone().unwrap_or_else(|| "default".into());
+            let mut guard = storage_arc
+                .lock()
+                .map_err(|e| RecordingError::Other(e.to_string()))?;
+            guard.metadata.capture.mic_device =
+                mic_device.clone().unwrap_or_else(|| "default".into());
         }
 
         let mic = MicCapture::start(storage_arc.clone(), mic_device)?;
 
         {
-            let mut sm = self.state_machine.lock().map_err(|e| RecordingError::Other(e.to_string()))?;
+            let mut sm = self
+                .state_machine
+                .lock()
+                .map_err(|e| RecordingError::Other(e.to_string()))?;
             sm.start_recording()?;
         }
 
-        *self.mic_capture.lock().map_err(|e| RecordingError::Other(e.to_string()))? = Some(mic);
-        *self.remote_writer.lock().map_err(|e| RecordingError::Other(e.to_string()))? =
+        *self
+            .mic_capture
+            .lock()
+            .map_err(|e| RecordingError::Other(e.to_string()))? = Some(mic);
+        *self
+            .remote_writer
+            .lock()
+            .map_err(|e| RecordingError::Other(e.to_string()))? =
             Some(RemoteAudioWriter::new(storage_arc.clone()));
-        *self.recording_start_secs.lock().map_err(|e| RecordingError::Other(e.to_string()))? =
-            Some(std::time::SystemTime::now()
+        *self
+            .recording_start_secs
+            .lock()
+            .map_err(|e| RecordingError::Other(e.to_string()))? = Some(
+            std::time::SystemTime::now()
                 .duration_since(std::time::UNIX_EPOCH)
                 .map_err(|e| RecordingError::Other(e.to_string()))?
-                .as_secs());
+                .as_secs(),
+        );
 
         self.remote_samples_ingested.store(0, Ordering::Relaxed);
         info!("Recording started");
@@ -114,7 +149,10 @@ impl SessionCoordinator {
     pub fn ingest_remote_audio(&self, samples: &[f32]) -> Result<(), RecordingError> {
         self.remote_samples_ingested
             .fetch_add(samples.len() as u64, Ordering::Relaxed);
-        let mut writer = self.remote_writer.lock().map_err(|e| RecordingError::Other(e.to_string()))?;
+        let mut writer = self
+            .remote_writer
+            .lock()
+            .map_err(|e| RecordingError::Other(e.to_string()))?;
         if let Some(w) = writer.as_mut() {
             w.push_samples(samples)?;
         }
@@ -123,7 +161,10 @@ impl SessionCoordinator {
 
     pub fn stop_recording(&self) -> Result<(), RecordingError> {
         {
-            let mut sm = self.state_machine.lock().map_err(|e| RecordingError::Other(e.to_string()))?;
+            let mut sm = self
+                .state_machine
+                .lock()
+                .map_err(|e| RecordingError::Other(e.to_string()))?;
             sm.stop_recording()?;
         }
 
@@ -149,11 +190,21 @@ impl SessionCoordinator {
             0
         };
 
-        if let Some(mut mic) = self.mic_capture.lock().map_err(|e| RecordingError::Other(e.to_string()))?.take() {
-            mic.stop();
+        if let Some(mut mic) = self
+            .mic_capture
+            .lock()
+            .map_err(|e| RecordingError::Other(e.to_string()))?
+            .take()
+        {
+            mic.stop()?;
         }
 
-        if let Some(mut writer) = self.remote_writer.lock().map_err(|e| RecordingError::Other(e.to_string()))?.take() {
+        if let Some(mut writer) = self
+            .remote_writer
+            .lock()
+            .map_err(|e| RecordingError::Other(e.to_string()))?
+            .take()
+        {
             writer.flush()?;
         }
 
@@ -166,8 +217,15 @@ impl SessionCoordinator {
             "Recording metrics summary"
         );
 
-        if let Some(storage_arc) = self.session_storage.lock().map_err(|e| RecordingError::Other(e.to_string()))?.as_ref() {
-            let mut guard = storage_arc.lock().map_err(|e| RecordingError::Other(e.to_string()))?;
+        if let Some(storage_arc) = self
+            .session_storage
+            .lock()
+            .map_err(|e| RecordingError::Other(e.to_string()))?
+            .as_ref()
+        {
+            let mut guard = storage_arc
+                .lock()
+                .map_err(|e| RecordingError::Other(e.to_string()))?;
             let end_time = Utc::now();
             let duration_secs = end_time
                 .signed_duration_since(guard.metadata.meeting.start_time)
@@ -181,79 +239,46 @@ impl SessionCoordinator {
         }
 
         {
-            let mut sm = self.state_machine.lock().map_err(|e| RecordingError::Other(e.to_string()))?;
+            let mut sm = self
+                .state_machine
+                .lock()
+                .map_err(|e| RecordingError::Other(e.to_string()))?;
             sm.start_processing()?;
         }
 
-        self.cancel_processing_requested.store(false, Ordering::Relaxed);
-        *self.recording_start_secs.lock().map_err(|e| RecordingError::Other(e.to_string()))? = None;
+        self.cancel_processing_requested
+            .store(false, Ordering::Relaxed);
+        *self
+            .recording_start_secs
+            .lock()
+            .map_err(|e| RecordingError::Other(e.to_string()))? = None;
 
-        #[cfg(feature = "transcription")]
+        self.transcription_progress.store(0, Ordering::Relaxed);
+
+        if let Some(storage_arc) = self
+            .session_storage
+            .lock()
+            .map_err(|e| RecordingError::Other(e.to_string()))?
+            .as_ref()
         {
-            let to_run = self
-                .session_storage
+            let guard = storage_arc
                 .lock()
-                .map_err(|e| RecordingError::Other(e.to_string()))?
-                .as_ref()
-                .map(|arc| {
-                    let guard = arc.lock().map_err(|e| RecordingError::Other(e.to_string()))?;
-                    let transcript_path = guard.transcript_output_path();
-                    Ok::<_, RecordingError>((
-                        guard.root.clone(),
-                        transcript_path,
-                        guard.metadata.clone(),
-                        guard.metadata.audio.mic_chunks,
-                    ))
-                })
-                .transpose()?;
-
-            if let Some((root, transcript_path, mut meta, mic_chunks)) = to_run {
-                self.transcription_progress.store(0, Ordering::Relaxed);
-                if let Ok(pipeline) = crate::transcription::TranscriptionPipeline::new() {
-                    let progress = &self.transcription_progress;
-                    let cb = |current: u32, total: u32| {
-                        let pct = if total > 0 { (current * 100) / total } else { 100 };
-                        progress.store(pct, Ordering::Relaxed);
-                    };
-                    let remote_chunks = meta.audio.remote_chunks;
-                    let cancel_flag = &self.cancel_processing_requested;
-                    let check_cancel = || cancel_flag.load(Ordering::Relaxed);
-                    match pipeline.transcribe_session_with_progress(
-                        &root,
-                        &transcript_path,
-                        &meta,
-                        mic_chunks,
-                        remote_chunks,
-                        cb,
-                        check_cancel,
-                    ) {
-                        Ok(()) => {
-                            meta.transcription =
-                                Some(crate::transcription::default_transcription_info(pipeline.model_path()));
-                            if let Ok(yaml) = serde_yaml::to_string(&meta) {
-                                let _ = std::fs::write(root.join("metadata.yaml"), yaml);
-                            }
-                        }
-                        Err(e) => {
-                            let msg = e.to_string();
-                            self.set_error(msg.clone());
-                            tracing::warn!("Transcription failed: {}", msg);
-                        }
-                    }
-                }
-                self.transcription_progress.store(100, Ordering::Relaxed);
-            }
+                .map_err(|e| RecordingError::Other(e.to_string()))?;
+            *self
+                .last_completed_recording_path
+                .lock()
+                .map_err(|e| RecordingError::Other(e.to_string()))? = Some(guard.root.clone());
         }
-
-        if let Some(storage_arc) = self.session_storage.lock().map_err(|e| RecordingError::Other(e.to_string()))?.as_ref() {
-            let guard = storage_arc.lock().map_err(|e| RecordingError::Other(e.to_string()))?;
-            *self.last_completed_recording_path.lock().map_err(|e| RecordingError::Other(e.to_string()))? =
-                Some(guard.root.clone());
-        }
-        *self.session_storage.lock().map_err(|e| RecordingError::Other(e.to_string()))? = None;
+        *self
+            .session_storage
+            .lock()
+            .map_err(|e| RecordingError::Other(e.to_string()))? = None;
 
         {
-            let mut sm = self.state_machine.lock().map_err(|e| RecordingError::Other(e.to_string()))?;
+            let mut sm = self
+                .state_machine
+                .lock()
+                .map_err(|e| RecordingError::Other(e.to_string()))?;
             sm.finish()?;
         }
 
@@ -283,6 +308,12 @@ impl SessionCoordinator {
         self.last_error.lock().ok()?.clone()
     }
 
+    pub fn clear_error(&self) {
+        if let Ok(mut last_error) = self.last_error.lock() {
+            *last_error = None;
+        }
+    }
+
     pub fn set_error(&self, msg: String) {
         *self.last_error.lock().unwrap() = Some(msg.clone());
         let _ = self.state_machine.lock().unwrap().set_error(msg);
@@ -290,7 +321,8 @@ impl SessionCoordinator {
 
     /// Request that processing (transcription) stop early. Checked between batches.
     pub fn request_cancel_processing(&self) {
-        self.cancel_processing_requested.store(true, Ordering::Relaxed);
+        self.cancel_processing_requested
+            .store(true, Ordering::Relaxed);
     }
 
     /// Force transition from Processing/Error to Idle. Call when background thread panics or to recover.
@@ -308,7 +340,10 @@ impl SessionCoordinator {
 
     /// Path of session currently being transcribed (transcribe-later). None when idle.
     pub fn transcribing_session_path(&self) -> Option<PathBuf> {
-        self.transcribing_session_path.lock().ok().and_then(|g| g.clone())
+        self.transcribing_session_path
+            .lock()
+            .ok()
+            .and_then(|g| g.clone())
     }
 
     /// Take and return the path of the last completed session (for Swift to insert into DB).
@@ -324,69 +359,118 @@ impl SessionCoordinator {
     /// Call with Arc receiver: coord.transcribe_session_later(path)
     #[cfg(feature = "transcription")]
     pub fn transcribe_session_later(self: &Arc<Self>, path: PathBuf) -> Result<(), RecordingError> {
+        self.clear_error();
         if !path.exists() {
-            return Err(RecordingError::Other("session folder does not exist".into()));
+            return Err(RecordingError::Other(
+                "session folder does not exist".into(),
+            ));
         }
         if !path.is_dir() {
             return Err(RecordingError::Other("path is not a directory".into()));
         }
         {
-            let guard = self.transcribing_session_path.lock().map_err(|e| RecordingError::Other(e.to_string()))?;
+            let guard = self
+                .transcribing_session_path
+                .lock()
+                .map_err(|e| RecordingError::Other(e.to_string()))?;
             if guard.is_some() {
-                return Err(RecordingError::Other("already transcribing another session".into()));
+                return Err(RecordingError::Other(
+                    "already transcribing another session".into(),
+                ));
             }
         }
 
-        let meta = SessionStorage::load_metadata_from_path(&path)?;
+        let mut meta = SessionStorage::load_metadata_from_path(&path)?;
+        if meta.meeting.end_time.is_none() || meta.meeting.duration_seconds.is_none() {
+            let estimated_duration =
+                u64::from(meta.audio.mic_chunks.max(meta.audio.remote_chunks)) * 5;
+            meta.meeting.duration_seconds = Some(estimated_duration);
+            meta.meeting.end_time =
+                Some(meta.meeting.start_time + Duration::seconds(estimated_duration as i64));
+            if let Ok(yaml) = serde_yaml::to_string(&meta) {
+                let _ = std::fs::write(path.join("metadata.yaml"), yaml);
+            }
+            tracing::warn!(
+                estimated_duration_secs = estimated_duration,
+                path = %path.display(),
+                "Repaired incomplete recording metadata before transcription"
+            );
+        }
+
         let mic_chunks = meta.audio.mic_chunks;
         let remote_chunks = meta.audio.remote_chunks;
+
+        *self
+            .transcribing_session_path
+            .lock()
+            .map_err(|e| RecordingError::Other(e.to_string()))? = Some(path.clone());
+        self.transcription_progress.store(1, Ordering::Relaxed);
 
         let coord = self.clone();
         let path_clone = path.clone();
         std::thread::spawn(move || {
-            *coord.transcribing_session_path.lock().unwrap() = Some(path_clone.clone());
-            coord.transcription_progress.store(0, Ordering::Relaxed);
-            coord.cancel_processing_requested.store(false, Ordering::Relaxed);
+            coord.transcription_progress.store(1, Ordering::Relaxed);
+            coord
+                .cancel_processing_requested
+                .store(false, Ordering::Relaxed);
 
-            let result = (|| -> Result<(), RecordingError> {
-                let pipeline = crate::transcription::TranscriptionPipeline::new()?;
-                let progress = &coord.transcription_progress;
-                let cb = |current: u32, total: u32| {
-                    let pct = if total > 0 { (current * 100) / total } else { 100 };
-                    progress.store(pct, Ordering::Relaxed);
-                };
-                let cancel_flag = &coord.cancel_processing_requested;
-                let check_cancel = || cancel_flag.load(Ordering::Relaxed);
+            let result =
+                panic::catch_unwind(panic::AssertUnwindSafe(|| -> Result<(), RecordingError> {
+                    let pipeline = crate::transcription::TranscriptionPipeline::new()?;
+                    let progress = &coord.transcription_progress;
+                    let cb = |current: u32, total: u32| {
+                        let pct = if total > 0 {
+                            (current * 100) / total
+                        } else {
+                            100
+                        };
+                        progress.store(pct, Ordering::Relaxed);
+                    };
+                    let cancel_flag = &coord.cancel_processing_requested;
+                    let check_cancel = || cancel_flag.load(Ordering::Relaxed);
 
-                let transcript_path = SessionStorage::transcript_output_path_for_session_root(&path_clone);
-                pipeline.transcribe_session_with_progress(
-                    &path_clone,
-                    &transcript_path,
-                    &meta,
-                    mic_chunks,
-                    remote_chunks,
-                    cb,
-                    check_cancel,
-                )?;
+                    let transcript_path =
+                        SessionStorage::transcript_output_path_for_session_root(&path_clone);
+                    pipeline.transcribe_session_with_progress(
+                        &path_clone,
+                        &transcript_path,
+                        &meta,
+                        mic_chunks,
+                        remote_chunks,
+                        cb,
+                        check_cancel,
+                    )?;
 
-                let mut updated_meta = SessionStorage::load_metadata_from_path(&path_clone)?;
-                updated_meta.transcription =
-                    Some(crate::transcription::default_transcription_info(pipeline.model_path()));
-                if let Ok(yaml) = serde_yaml::to_string(&updated_meta) {
-                    let _ = std::fs::write(path_clone.join("metadata.yaml"), yaml);
-                }
-                Ok(())
-            })();
+                    let mut updated_meta = SessionStorage::load_metadata_from_path(&path_clone)?;
+                    updated_meta.transcription = Some(
+                        crate::transcription::default_transcription_info(pipeline.model_path()),
+                    );
+                    if let Ok(yaml) = serde_yaml::to_string(&updated_meta) {
+                        let _ = std::fs::write(path_clone.join("metadata.yaml"), yaml);
+                    }
+                    Ok(())
+                }));
 
             match result {
-                Ok(()) => {}
-                Err(e) => {
+                Ok(Ok(())) => {
+                    *coord.last_completed_recording_path.lock().unwrap() = Some(path_clone);
+                    coord.transcription_progress.store(100, Ordering::Relaxed);
+                }
+                Ok(Err(e)) => {
                     coord.set_error(e.to_string());
+                    coord.transcription_progress.store(0, Ordering::Relaxed);
+                }
+                Err(panic_payload) => {
+                    let msg = panic_payload
+                        .downcast_ref::<&str>()
+                        .map(|s| s.to_string())
+                        .or_else(|| panic_payload.downcast_ref::<String>().cloned())
+                        .unwrap_or_else(|| "Transcription panicked".into());
+                    coord.set_error(msg);
+                    coord.transcription_progress.store(0, Ordering::Relaxed);
                 }
             }
 
-            *coord.last_completed_recording_path.lock().unwrap() = Some(path_clone);
-            coord.transcription_progress.store(100, Ordering::Relaxed);
             *coord.transcribing_session_path.lock().unwrap() = None;
         });
 

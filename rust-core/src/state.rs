@@ -157,19 +157,82 @@ impl StateMachine {
 mod tests {
     use super::*;
 
+    fn machine_at(state: RecordingState) -> (StateMachine, std::path::PathBuf) {
+        let root =
+            std::env::temp_dir().join(format!("ultra-meeting-state-test-{}", uuid::Uuid::new_v4()));
+        std::fs::create_dir_all(&root).unwrap();
+        let machine = StateMachine {
+            state,
+            storage_path: root.join("recordings"),
+            state_path: root.join("state.json"),
+        };
+        (machine, root)
+    }
+
     #[test]
     fn state_transitions() {
         let _ = tracing_subscriber::fmt().try_init();
-        let temp = std::env::temp_dir().join("ultra-meeting-test-state");
-        let _ = std::fs::remove_dir_all(&temp);
-        std::fs::create_dir_all(&temp).unwrap();
-        let state_path = temp.join("state.json");
+        let (mut machine, root) = machine_at(RecordingState::Idle);
 
-        let dirs_override = || {
-            Some(std::path::PathBuf::from("/tmp"))
-        };
-        // Cannot easily test without home/documents - use unit test for transition logic
-        assert_eq!(RecordingState::Idle.display_name(), "idle");
-        assert_eq!(RecordingState::Recording.display_name(), "recording");
+        machine.start_preparing().unwrap();
+        assert_eq!(machine.state(), &RecordingState::Preparing);
+        machine.start_recording().unwrap();
+        assert_eq!(machine.state(), &RecordingState::Recording);
+        machine.stop_recording().unwrap();
+        assert_eq!(machine.state(), &RecordingState::Stopping);
+        machine.start_processing().unwrap();
+        assert_eq!(machine.state(), &RecordingState::Processing);
+        machine.finish().unwrap();
+        assert_eq!(machine.state(), &RecordingState::Idle);
+
+        let _ = std::fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn rejects_invalid_state_transitions() {
+        let (mut machine, root) = machine_at(RecordingState::Idle);
+
+        assert!(matches!(
+            machine.stop_recording().unwrap_err(),
+            RecordingError::InvalidState(_)
+        ));
+        assert!(matches!(
+            machine.start_processing().unwrap_err(),
+            RecordingError::InvalidState(_)
+        ));
+        assert!(matches!(
+            machine.finish().unwrap_err(),
+            RecordingError::InvalidState(_)
+        ));
+
+        let _ = std::fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn reset_interrupted_recovers_non_idle_runtime_states() {
+        for state in [
+            RecordingState::Recording,
+            RecordingState::Stopping,
+            RecordingState::Processing,
+            RecordingState::Error("boom".into()),
+            RecordingState::Failed("boom".into()),
+        ] {
+            let (mut machine, root) = machine_at(state);
+            machine.reset_interrupted().unwrap();
+            assert_eq!(machine.state(), &RecordingState::Idle);
+            let _ = std::fs::remove_dir_all(root);
+        }
+    }
+
+    #[test]
+    fn persists_state_to_disk() {
+        let (mut machine, root) = machine_at(RecordingState::Idle);
+
+        machine.start_preparing().unwrap();
+        let data = std::fs::read_to_string(root.join("state.json")).unwrap();
+        let persisted: RecordingState = serde_json::from_str(&data).unwrap();
+
+        assert_eq!(persisted, RecordingState::Preparing);
+        let _ = std::fs::remove_dir_all(root);
     }
 }

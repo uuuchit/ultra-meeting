@@ -17,6 +17,21 @@ struct UltraMeetingApp: App {
         }
         .menuBarExtraStyle(.window)
 
+        WindowGroup("Ultra Meeting") {
+            ControlWindowContent(appState: appState)
+        }
+        .windowResizability(.contentSize)
+        .defaultSize(width: 360, height: 320)
+        .commands {
+            CommandMenu("Recording") {
+                Button("Stop Recording") {
+                    appState.stopRecording()
+                }
+                .disabled(appState.recordingState != "recording")
+                .keyboardShortcut(".", modifiers: [.command])
+            }
+        }
+
         // Standalone windows prevent closure when menu bar popover loses focus
         Window("Recordings", id: "recordings") {
             RecordingsBrowserWindowContent()
@@ -34,7 +49,7 @@ struct UltraMeetingApp: App {
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
-        NSApp.setActivationPolicy(.accessory)
+        NSApp.setActivationPolicy(.regular)
         if let err = RustBridge.initCore() {
             NSLog("Ultra Meeting: Rust core init failed: %@", err)
         }

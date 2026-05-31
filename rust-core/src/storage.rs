@@ -95,7 +95,13 @@ pub struct SessionStorage {
 /// Sanitize meeting name for use in folder path.
 pub fn sanitize_meeting_name(name: &str) -> String {
     name.chars()
-        .map(|c| if c.is_alphanumeric() || c == ' ' || c == '-' || c == '_' { c } else { '_' })
+        .map(|c| {
+            if c.is_alphanumeric() || c == ' ' || c == '-' || c == '_' {
+                c
+            } else {
+                '_'
+            }
+        })
         .collect::<String>()
         .split_whitespace()
         .collect::<Vec<_>>()
@@ -112,7 +118,12 @@ impl SessionStorage {
     pub fn session_folder_path(recordings_root: &std::path::Path, _meeting_name: &str) -> PathBuf {
         let now = chrono::Utc::now();
         let ts = now.format("%Y-%m-%d_%H-%M-%S").to_string();
-        let id = uuid::Uuid::new_v4().to_string().replace('-', "").chars().take(12).collect::<String>();
+        let id = uuid::Uuid::new_v4()
+            .to_string()
+            .replace('-', "")
+            .chars()
+            .take(12)
+            .collect::<String>();
         recordings_root.join(format!("{}_{}", ts, id))
     }
 
@@ -167,7 +178,9 @@ impl SessionStorage {
     }
 
     /// Load metadata from an existing session folder (for transcribe-later).
-    pub fn load_metadata_from_path(root: &std::path::Path) -> Result<SessionMetadata, RecordingError> {
+    pub fn load_metadata_from_path(
+        root: &std::path::Path,
+    ) -> Result<SessionMetadata, RecordingError> {
         let path = root.join("metadata.yaml");
         let yaml = std::fs::read_to_string(&path)?;
         serde_yaml::from_str(&yaml).map_err(|e| RecordingError::Other(e.to_string()))
@@ -175,6 +188,7 @@ impl SessionStorage {
 }
 
 #[cfg(target_os = "macos")]
+#[allow(deprecated)]
 fn mach_time_ns() -> u64 {
     let t = unsafe { libc::mach_absolute_time() };
     let mut info = libc::mach_timebase_info_data_t { numer: 0, denom: 0 };
@@ -185,5 +199,77 @@ fn mach_time_ns() -> u64 {
 #[cfg(not(target_os = "macos"))]
 fn mach_time_ns() -> u64 {
     use std::time::{SystemTime, UNIX_EPOCH};
-    SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos() as u64
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_nanos() as u64
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn sanitizes_meeting_names_for_safe_paths() {
+        assert_eq!(
+            sanitize_meeting_name("  Team Sync / Q2?  "),
+            "Team-Sync-_-Q2_"
+        );
+        assert_eq!(sanitize_meeting_name(""), "");
+
+        let long = "a".repeat(120);
+        assert_eq!(sanitize_meeting_name(&long).len(), 80);
+    }
+
+    #[test]
+    fn creates_session_metadata_and_loads_it_back() {
+        let root = std::env::temp_dir().join(format!(
+            "ultra-meeting-storage-test-{}",
+            uuid::Uuid::new_v4()
+        ));
+
+        let storage = SessionStorage::create(root.clone(), "edge meeting").unwrap();
+        assert_eq!(storage.metadata.meeting.name, "edge meeting");
+        assert!(root.join("metadata.yaml").exists());
+
+        let loaded = SessionStorage::load_metadata_from_path(&root).unwrap();
+        assert_eq!(loaded.meeting.name, "edge meeting");
+        assert_eq!(loaded.audio.sample_rate, 48_000);
+        let _ = std::fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn transcript_output_path_uses_sibling_transcripts_folder() {
+        let base = std::env::temp_dir().join(format!(
+            "ultra-meeting-transcript-path-{}",
+            uuid::Uuid::new_v4()
+        ));
+        let session = base.join("recordings").join("2026-01-01_00-00-00_abcdef");
+
+        let transcript = SessionStorage::transcript_output_path_for_session_root(&session);
+
+        assert_eq!(
+            transcript,
+            base.join("transcripts")
+                .join("2026-01-01_00-00-00_abcdef")
+                .join("transcript.md")
+        );
+    }
+
+    #[test]
+    fn create_fails_when_root_path_is_a_file() {
+        let root = std::env::temp_dir().join(format!(
+            "ultra-meeting-storage-file-root-{}",
+            uuid::Uuid::new_v4()
+        ));
+        std::fs::write(&root, b"not a directory").unwrap();
+
+        let err = match SessionStorage::create(root.clone(), "bad root") {
+            Ok(_) => panic!("session creation should fail when root is a file"),
+            Err(err) => err,
+        };
+
+        assert!(err.to_string().contains("IO error"));
+        let _ = std::fs::remove_file(root);
+    }
 }

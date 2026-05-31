@@ -9,6 +9,8 @@ use tracing::{info, warn};
 const BATCH_DURATION_SEC: usize = 60;
 const SAMPLE_RATE_16K: u32 = 16000;
 const SAMPLES_PER_BATCH_16K: usize = SAMPLE_RATE_16K as usize * BATCH_DURATION_SEC;
+const MODEL_FILE_NAME: &str = "ggml-base.bin";
+const MODEL_STRATEGY: &str = "whisper-ggml-base-multilingual-auto";
 
 #[derive(Debug)]
 pub struct TranscriptSegment {
@@ -28,7 +30,7 @@ impl TranscriptionPipeline {
             .ok_or_else(|| RecordingError::Other("no home dir".into()))?
             .join(".ultra-meeting/models");
         std::fs::create_dir_all(&model_dir)?;
-        let model_path = model_dir.join("ggml-base.en.bin");
+        let model_path = model_dir.join(MODEL_FILE_NAME);
         Ok(Self { model_path })
     }
 
@@ -37,7 +39,11 @@ impl TranscriptionPipeline {
     }
 
     /// Merge chunked WAV files from session root into a single f32 buffer.
-    fn merge_chunks(root: &Path, prefix: &str, chunk_count: u32) -> Result<(Vec<f32>, u32), RecordingError> {
+    fn merge_chunks(
+        root: &Path,
+        prefix: &str,
+        chunk_count: u32,
+    ) -> Result<(Vec<f32>, u32), RecordingError> {
         let mut all_samples: Vec<f32> = Vec::new();
         let mut sample_rate: Option<u32> = None;
 
@@ -72,12 +78,16 @@ impl TranscriptionPipeline {
     ) -> Result<(), RecordingError> {
         if !self.model_path.exists() {
             return Err(RecordingError::TranscriptionFailed(
-                "Whisper model not found. Run model download first.".into(),
+                format!(
+                    "Multilingual Whisper model not found at {}. Run scripts/download-whisper-model.sh first.",
+                    self.model_path.display()
+                ),
             ));
         }
 
         let (mic_audio_f32, mic_sample_rate) = Self::merge_chunks(root, "mic", mic_chunks)?;
-        let (remote_audio_f32, remote_sample_rate) = Self::merge_chunks(root, "remote", remote_chunks)?;
+        let (remote_audio_f32, remote_sample_rate) =
+            Self::merge_chunks(root, "remote", remote_chunks)?;
         if mic_audio_f32.is_empty() && remote_audio_f32.is_empty() {
             info!("No audio to transcribe");
             return Ok(());
@@ -122,16 +132,15 @@ impl TranscriptionPipeline {
         }
 
         let ctx = whisper_rs::WhisperContext::new_with_params(
-            self.model_path.to_str().ok_or_else(|| RecordingError::Other("invalid model path".into()))?,
+            self.model_path
+                .to_str()
+                .ok_or_else(|| RecordingError::Other("invalid model path".into()))?,
             whisper_rs::WhisperContextParameters::default(),
         )
         .map_err(|e| RecordingError::TranscriptionFailed(e.to_string()))?;
 
         let mut completed_batches = 0u32;
-        for (audio_16k, speaker) in [
-            (&mic_audio_16k, "You (mic)"),
-            (&remote_audio_16k, "Remote"),
-        ] {
+        for (audio_16k, speaker) in [(&mic_audio_16k, "You (mic)"), (&remote_audio_16k, "Remote")] {
             if audio_16k.is_empty() {
                 continue;
             }
@@ -156,8 +165,12 @@ impl TranscriptionPipeline {
                     .create_state()
                     .map_err(|e| RecordingError::TranscriptionFailed(e.to_string()))?;
 
-                let mut params = whisper_rs::FullParams::new(whisper_rs::SamplingStrategy::Greedy { best_of: 1 });
+                let mut params =
+                    whisper_rs::FullParams::new(whisper_rs::SamplingStrategy::Greedy {
+                        best_of: 1,
+                    });
                 params.set_translate(false);
+                params.set_language(Some("auto"));
                 params.set_print_realtime(false);
                 params.set_print_progress(false);
 
@@ -239,7 +252,10 @@ impl TranscriptionPipeline {
     ) -> Result<Vec<TranscriptSegment>, RecordingError> {
         if !self.model_path.exists() {
             return Err(RecordingError::TranscriptionFailed(
-                "Whisper model not found. Run model download first.".into(),
+                format!(
+                    "Multilingual Whisper model not found at {}. Run scripts/download-whisper-model.sh first.",
+                    self.model_path.display()
+                ),
             ));
         }
 
@@ -251,7 +267,9 @@ impl TranscriptionPipeline {
         };
 
         let ctx = whisper_rs::WhisperContext::new_with_params(
-            self.model_path.to_str().ok_or_else(|| RecordingError::Other("invalid model path".into()))?,
+            self.model_path
+                .to_str()
+                .ok_or_else(|| RecordingError::Other("invalid model path".into()))?,
             whisper_rs::WhisperContextParameters::default(),
         )
         .map_err(|e| RecordingError::TranscriptionFailed(e.to_string()))?;
@@ -260,7 +278,8 @@ impl TranscriptionPipeline {
             .create_state()
             .map_err(|e| RecordingError::TranscriptionFailed(e.to_string()))?;
 
-        let mut params = whisper_rs::FullParams::new(whisper_rs::SamplingStrategy::Greedy { best_of: 1 });
+        let mut params =
+            whisper_rs::FullParams::new(whisper_rs::SamplingStrategy::Greedy { best_of: 1 });
         params.set_translate(false);
         params.set_print_realtime(false);
         params.set_print_progress(false);
@@ -302,9 +321,7 @@ fn format_timestamp(secs: f64) -> String {
 fn load_wav(path: &Path) -> Result<(Vec<f32>, u32, f64), RecordingError> {
     let mut reader = hound::WavReader::open(path)?;
     let spec = reader.spec();
-    let duration_sec = reader.len() as f64
-        / spec.sample_rate as f64
-        / spec.channels as u32 as f64;
+    let duration_sec = reader.len() as f64 / spec.sample_rate as f64 / spec.channels as u32 as f64;
 
     let samples: Vec<f32> = match spec.sample_format {
         hound::SampleFormat::Int => {
@@ -350,6 +367,6 @@ fn resample_to_16k(audio: &[f32], from_rate: u32) -> Result<Vec<f32>, RecordingE
 pub fn default_transcription_info(model_path: &Path) -> TranscriptionInfo {
     TranscriptionInfo {
         model_path: model_path.to_string_lossy().into_owned(),
-        model_strategy: "whisper-ggml-base-en".into(),
+        model_strategy: MODEL_STRATEGY.into(),
     }
 }

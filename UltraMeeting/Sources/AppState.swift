@@ -80,10 +80,20 @@ final class AppState: ObservableObject {
             return
         }
         recordingState = RustBridge.stateName()
+        NSApp.activate(ignoringOtherApps: true)
         startStateTimer()
 
         Task { @MainActor in
-            await startScreenCapture()
+            do {
+                try await startScreenCapture()
+            } catch {
+                errorMessage = "Screen capture failed: \(error.localizedDescription). Recording was stopped."
+                NSLog("ScreenCaptureKit start error: %@", error.localizedDescription)
+                if let err = RustBridge.stopRecording() {
+                    errorMessage = "\(errorMessage ?? "Screen capture failed.") \(err)"
+                }
+                syncStateFromRust()
+            }
         }
     }
 
@@ -154,16 +164,11 @@ final class AppState: ObservableObject {
     }
 
     @MainActor
-    private func startScreenCapture() async {
+    private func startScreenCapture() async throws {
         guard #available(macOS 12.3, *) else { return }
         let bridge = ScreenCaptureBridge()
         screenCapture = bridge
-        do {
-            try await bridge.startCapture(includingApps: nil)
-        } catch {
-            errorMessage = "Screen capture failed: \(error.localizedDescription). Grant Screen Recording permission and restart the app."
-            NSLog("ScreenCaptureKit start error: %@", error.localizedDescription)
-        }
+        try await bridge.startCapture(includingApps: nil)
     }
 
     @MainActor

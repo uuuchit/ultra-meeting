@@ -214,6 +214,7 @@ struct MeetingDetailView: View {
                 if !meeting.hasTranscript && hasAudio && !isTranscribingThis {
                     Button("Transcribe") {
                         transcribeError = nil
+                        transcriptionProgress = 1
                         if let err = RustBridge.transcribeSession(path: meeting.recordingPath) {
                             transcribeError = err
                         } else {
@@ -264,10 +265,28 @@ struct MeetingDetailView: View {
         .onAppear {
             pollTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
                 if let path = RustBridge.transcribingSessionPath(), path == meeting.recordingPath {
-                    transcriptionProgress = RustBridge.transcriptionProgress()
+                    transcriptionProgress = max(1, RustBridge.transcriptionProgress())
+                    if let err = RustBridge.lastError(), !err.isEmpty {
+                        transcribeError = err
+                    }
                 } else if isTranscribingThis {
                     isTranscribingThis = false
+                    if let completedPath = RustBridge.lastCompletedRecordingPath(),
+                       let completedMeeting = SessionMetadataParser.parse(recordingPath: completedPath) {
+                        MeetingStore.shared.insertMeeting(completedMeeting)
+                        if let content = SessionMetadataParser.readTranscript(recordingPath: completedPath),
+                           let transcriptPath = SessionMetadataParser.transcriptPath(fromRecordingPath: completedPath) {
+                            MeetingStore.shared.insertTranscript(
+                                meetingId: completedMeeting.id,
+                                contentMd: content,
+                                transcriptPath: transcriptPath
+                            )
+                        }
+                    }
                     onRefresh()
+                    if transcriptContent == nil || transcriptContent?.isEmpty == true {
+                        transcribeError = RustBridge.lastError() ?? "Transcription stopped before producing a transcript."
+                    }
                 }
             }
             RunLoop.main.add(pollTimer!, forMode: .common)

@@ -108,6 +108,66 @@ struct MenuBarView: View {
     }
 }
 
+struct ControlWindowContent: View {
+    @Environment(\.openWindow) private var openWindow
+    @ObservedObject var appState: AppState
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(spacing: 10) {
+                Image(systemName: appState.menuBarIcon)
+                    .font(.title2)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(appState.menuBarTitle)
+                        .font(.headline)
+                    if appState.recordingState == "recording" {
+                        Text(formatDuration(appState.recordingDuration))
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                }
+                Spacer()
+            }
+
+            if let msg = appState.errorMessage {
+                Text(msg)
+                    .font(.caption)
+                    .foregroundColor(.red)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
+            RecordingSection(appState: appState)
+
+            Divider()
+
+            HStack {
+                Button("Recordings") {
+                    openWindow(id: "recordings")
+                }
+                Button("Settings") {
+                    openWindow(id: "settings")
+                }
+                Spacer()
+                Button("Quit") {
+                    NSApplication.shared.terminate(nil)
+                }
+            }
+        }
+        .padding()
+        .frame(width: 340)
+        .onAppear {
+            appState.checkPermissions()
+            appState.syncStateFromRust()
+        }
+    }
+
+    private func formatDuration(_ seconds: TimeInterval) -> String {
+        let m = Int(seconds) / 60
+        let s = Int(seconds) % 60
+        return String(format: "%d:%02d", m, s)
+    }
+}
+
 struct MeetingListSection: View {
     @ObservedObject var meetingStore: MeetingStore
 

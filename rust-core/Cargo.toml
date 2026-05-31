@@ -8,7 +8,6 @@ description = "Rust core: state machine, audio, storage, transcription"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-tokio = { version = "1", features = ["full"] }
 cpal = "0.17"
 hound = "3.5"
 rtrb = "0.3"
